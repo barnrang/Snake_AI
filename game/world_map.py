@@ -15,7 +15,10 @@ class Map(object):
             self.map[i][0] = '^'
             self.map[i][-1] = 'v'
 
-    def make_lst(self, snake):
+    def make_lst(self, snake, candy):
         self._reset_map()
         for coor in snake.body:
             self.map[coor[0]][coor[1]] = '@'
+        
+        current_candy = candy.current_candy
+        self.map[current_candy[0]][current_candy[1]] = '*'

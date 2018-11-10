@@ -1,5 +1,7 @@
 from queue import deque
 
+import numpy as np
+
 class Snake(object):
     def __init__(self, width, height):
         self.width = width
@@ -12,7 +14,7 @@ class Snake(object):
         #print([(born_position, x) for x in range(born_head, bornborn_length)])
         self.body = deque([(born_position, x) for x in range(born_head, born_head + born_length)])
         self.direct = 'l'
-        self.board_state = [[0 for _ in range(width)] for __ in range(height)]
+        self.board_state = np.array([[0 for _ in range(width)] for __ in range(height)])
         for body_part in self.body:
             self.board_state[body_part[0]][body_part[1]] = 1
         for i in range(self.width):
@@ -32,7 +34,7 @@ class Snake(object):
             self.direct = action
 
         current_head = self.body[0]
-        catch_food = False
+        catch_candy = False
         if self.direct == 'u':
             next_head = (current_head[0] - 1, current_head[1])
         if self.direct == 'd':
@@ -46,7 +48,9 @@ class Snake(object):
             self.dead = True
 
         self.body.appendleft(next_head)
-        if not catch_food:
-            self.body.pop()
+        self.board_state[next_head[0]][next_head[1]] = 1
+        if not catch_candy:
+            tail = self.body.pop()
+            self.board_state[tail[0]][tail[1]] = 0
 
     

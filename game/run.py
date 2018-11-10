@@ -11,6 +11,7 @@ from pynput.keyboard import Key, Controller, Listener
 
 from snake import Snake
 from world_map import Map
+from candy import Candy
 
 if platform.system() == 'Windows':
     def clear(): return os.system('cls')
@@ -34,10 +35,12 @@ if __name__ == "__main__":
             height = 10
             snake = Snake(width, height)
             world_map = Map(width, height)
+            candy = Candy(width, height)
             game_state = 'play'
         elif game_state == 'play':
+            candy.candy_update(snake)
             snake.move()
-            world_map.make_lst(snake)
+            world_map.make_lst(snake, candy)
             render(world_map.map)
             sleep(0.2)
             if snake.dead:
