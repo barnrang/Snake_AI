@@ -26,7 +26,7 @@ class Snake(object):
 
         self.dead = False
 
-    def move(self, action=None):
+    def move(self, candy, action=None):
         '''
         Update the snake body for an action
         '''
@@ -49,6 +49,10 @@ class Snake(object):
 
         self.body.appendleft(next_head)
         self.board_state[next_head[0]][next_head[1]] = 1
+
+        catch_candy = (candy.current_candy[0] == next_head[0]) and \
+            (candy.current_candy[1] == next_head[1])
+
         if not catch_candy:
             tail = self.body.pop()
             self.board_state[tail[0]][tail[1]] = 0

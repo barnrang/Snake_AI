@@ -1,5 +1,5 @@
 '''
-Snake game 
+Snake games
 '''
 import os
 import sys
@@ -39,7 +39,7 @@ if __name__ == "__main__":
             game_state = 'play'
         elif game_state == 'play':
             candy.candy_update(snake)
-            snake.move()
+            snake.move(candy)
             world_map.make_lst(snake, candy)
             render(world_map.map)
             sleep(0.2)
