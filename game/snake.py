@@ -31,7 +31,8 @@ class Snake(object):
         Update the snake body for an action
         '''
         if action is not None:
-            self.direct = action
+            if ({self.direct, action} != {'u','d'}) and ({self.direct, action} != {'r','l'}):
+                self.direct = action
 
         current_head = self.body[0]
         catch_candy = False
@@ -50,8 +51,9 @@ class Snake(object):
         self.body.appendleft(next_head)
         self.board_state[next_head[0]][next_head[1]] = 1
 
-        catch_candy = (candy.current_candy[0] == next_head[0]) and \
-            (candy.current_candy[1] == next_head[1])
+        if candy.current_candy is not None:
+            catch_candy = (candy.current_candy[0] == next_head[0]) and \
+                (candy.current_candy[1] == next_head[1])
 
         if not catch_candy:
             tail = self.body.pop()

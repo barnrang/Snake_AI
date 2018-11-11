@@ -20,5 +20,6 @@ class Map(object):
         for coor in snake.body:
             self.map[coor[0]][coor[1]] = '@'
         
-        current_candy = candy.current_candy
-        self.map[current_candy[0]][current_candy[1]] = '*'
+        if candy.current_candy is not None:
+            current_candy = candy.current_candy
+            self.map[current_candy[0]][current_candy[1]] = '@' if candy.candy_eaten else '*'
