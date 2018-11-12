@@ -5,10 +5,11 @@ from time import sleep
 
 import numpy as np
 from pynput.keyboard import Key, Controller, Listener
+#import snake
 
-from snake import Snake
-from world_map import Map
-from candy import Candy
+from game.snake import Snake
+from game.world_map import Map
+from game.candy import Candy
 
 if platform.system() == 'Windows':
     def clear(): return os.system('cls')
@@ -46,8 +47,11 @@ class SnakeEnvironment(object):
             return 1
         elif x == '*':
             return 2
+        else:
+            return 3
 
-    def get_state(self):
+    @property
+    def state(self):
         '''
         Return state from raw map
         wall - 0
@@ -56,12 +60,13 @@ class SnakeEnvironment(object):
         '''
         state_map = self.world_map.map
         for i in range(self.height):
-            state_map[i] = map(self._replace_item_map, state_map[i])
-        return state_map
+            state_map[i] = list(map(self._replace_item_map, state_map[i]))
+        return np.array(state_map)
 
     def reset(self):
         '''
         Reset state (e.g. Game over)
+        and return init state
         '''
         self.game_state = 'init'
 
@@ -71,6 +76,7 @@ class SnakeEnvironment(object):
         self.world_map = Map(self.width, self.height)
         self.world_map.make_lst(self.snake, self.candy)
         self.done = False
+        return self.state
 
     def act(self, action):
         '''
@@ -80,20 +86,20 @@ class SnakeEnvironment(object):
         Output:
         Float - reward
 
-        Move an act, return reward
+        Move an act, return state, reward & done
         '''
         self.snake.move(self.candy, self.action_list[action])
         self.candy.candy_update(self.snake)
         self.world_map.make_lst(self.snake, self.candy)
 
         if self.candy.candy_eaten:
-            return 1
+            return self.state, 1, self.snake.dead
         
         if self.snake.dead:
             self.done = True
-            return -5
+            return self.state, -5, self.snake.dead
 
-        return 0
+        return self.state, 0, self.snake.dead
 
     
     def render(self):
