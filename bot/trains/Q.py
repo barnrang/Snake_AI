@@ -55,9 +55,8 @@ class DQAgent():
                 target[0][action] = reward
             else:
                 inp = self.rescale_color(next_state)
-                a = self.q.model.predict(inp)[0]
                 t = self.qt.model.predict(inp)[0]
-                target[0][action] = reward + self.config.gamma * t[np.argmax(a)]
+                target[0][action] = reward + self.config.gamma * np.max(t)
             self.q.model.fit(inpu, target, epochs=1, verbose=0)
         if self.config.eps> self.config.eps_min:
             self.config.eps *= self.config.eps_decay

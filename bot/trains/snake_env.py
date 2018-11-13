@@ -4,7 +4,7 @@ import platform
 from time import sleep
 
 import numpy as np
-from pynput.keyboard import Key, Controller, Listener
+#from pynput.keyboard import Key, Controller, Listener
 #import snake
 
 from game.snake import Snake
