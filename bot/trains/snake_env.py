@@ -58,7 +58,7 @@ class SnakeEnvironment(object):
         snake - 1
         candy - 2
         '''
-        state_map = self.world_map.map
+        state_map = self.world_map.map.copy()
         for i in range(self.height):
             state_map[i] = list(map(self._replace_item_map, state_map[i]))
         return np.array(state_map)
