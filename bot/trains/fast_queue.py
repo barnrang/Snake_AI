@@ -1,4 +1,5 @@
 import keras
+import numpy as np
 eps = 1e-8
 class fast_queue(keras.callbacks.Callback):
     def __init__(self, size):
