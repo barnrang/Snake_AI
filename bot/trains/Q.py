@@ -17,7 +17,7 @@ class Config:
     height = 20
     width = 30
     action_num = 5
-    lr = 3e-5
+    lr = 1e-4
     eps = 1.
     eps_min = 0.1
     eps_decay = 0.999

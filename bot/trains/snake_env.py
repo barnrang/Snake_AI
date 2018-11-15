@@ -93,13 +93,13 @@ class SnakeEnvironment(object):
         self.world_map.make_lst(self.snake, self.candy)
 
         if self.candy.candy_eaten:
-            return self.state, 1, self.snake.dead
+            return self.state, 10, self.snake.dead
         
         if self.snake.dead:
             self.done = True
             return self.state, -5, self.snake.dead
 
-        return self.state, 0, self.snake.dead
+        return self.state, 1, self.snake.dead
 
     
     def render(self):
