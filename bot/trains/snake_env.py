@@ -58,7 +58,7 @@ class SnakeEnvironment(object):
         snake - 1
         candy - 2
         '''
-        state_map = self.world_map.map
+        state_map = self.world_map.map.copy()
         for i in range(self.height):
             state_map[i] = list(map(self._replace_item_map, state_map[i]))
         return np.array(state_map)
@@ -78,7 +78,7 @@ class SnakeEnvironment(object):
         self.done = False
         return self.state
 
-    def act(self, action):
+    def step(self, action):
         '''
         Input:
         Int - action
@@ -93,13 +93,14 @@ class SnakeEnvironment(object):
         self.world_map.make_lst(self.snake, self.candy)
 
         if self.candy.candy_eaten:
-            return self.state, 10, self.snake.dead
+            return self.state, 5, self.snake.dead, None
         
         if self.snake.dead:
             self.done = True
-            return self.state, -5, self.snake.dead
+            # The training process will negative it
+            return self.state, 5, self.snake.dead, None
 
-        return self.state, 1, self.snake.dead
+        return self.state, 0, self.snake.dead, None
 
     
     def render(self):

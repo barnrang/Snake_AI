@@ -19,15 +19,26 @@ class BaseNetwork(object):
         return tf.reduce_mean(loss)
 
     def build_model(self):
-        model = Sequential()
-        model.add(layers.Conv2D(16, (5,5), input_shape=(self.width, self.height, 2)))
-        model.add(layers.Activation('relu'))
-        model.add(layers.Conv2D(32, (3,3)))
-        model.add(layers.Activation('relu'))
-        model.add(layers.GlobalAveragePooling2D())
-        model.add(layers.Dense(128))
-        model.add(layers.Activation('relu'))
-        model.add(layers.Dense(self.action_num, activation='linear'))
+        if self.config.game == 'cart':
+            self.config.lr = 1e-3
+            model = Sequential()
+            model.add(layers.Dense(24, input_shape=(4,), activation='relu'))
+            model.add(layers.Dense(24, activation='relu'))
+            model.add(layers.Dense(self.action_num, activation='linear'))
+
+
+        if self.config.game == 'snake':
+            model = Sequential()
+            model.add(layers.Conv2D(16, (5,5), strides=(2,2), input_shape=(self.width, self.height, 4)))
+            model.add(layers.Activation('relu'))
+            model.add(layers.Conv2D(32, (3,3)))
+            model.add(layers.Activation('relu'))
+            model.add(layers.Flatten())
+            #model.add(layers.GlobalAveragePooling2D())
+            model.add(layers.Dense(128))
+            model.add(layers.Activation('relu'))
+            model.add(layers.Dense(64, activation='relu'))
+            model.add(layers.Dense(self.action_num, activation='linear'))
 
         model.compile(optimizer=RMSprop(self.config.lr), loss=self._huber_loss)
         
