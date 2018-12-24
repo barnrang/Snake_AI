@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "C:\\Anaconda\\envs\\chatbot\\python.exe"
+    "python.pythonPath": "/Users/barnrang/miniconda3/envs/deeprlbootcamp/bin/python",
+    "python.linting.pylintEnabled": true
 }

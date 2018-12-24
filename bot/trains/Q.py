@@ -1,15 +1,18 @@
+#%%
 from collections import deque
 import random
 import sys
 
 sys.path.append('../../')
 sys.path.append('game/')
+sys.path.append('bot/trains/')
 
 import numpy as np
 
 from base_network import BaseNetwork
 from keras.models import load_model
 from snake_env import SnakeEnvironment
+#%%
 
 EP = 100000
 
